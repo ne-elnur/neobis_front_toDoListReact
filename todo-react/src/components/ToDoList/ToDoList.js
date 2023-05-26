@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
-const ToDoList = () => {
-    const [todo, setTodo] = useState([]);
+const ToDoList = ({ todo, setTodo }) => {
     const [value, setValue] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [edit, setEdit] = useState(null);
+    const [editValue, setEditValue] = useState('');
 
     function saveTodo(e) {
         e.preventDefault();
@@ -36,18 +36,22 @@ const ToDoList = () => {
 
     function editTodo(id, title) {
         setEdit(id);
-        setValue(title);
+        setEditValue(title);
     }
 
     function saveEditedTodo(id) {
         const newTodo = todo.map(item => {
             if (item.id === id) {
-                item.title = value;
+                return {
+                    ...item,
+                    title: editValue,
+                };
             }
             return item;
         });
         setTodo(newTodo);
         setEdit(null);
+        setEditValue('');
     }
 
     function toggleTodoStatus(id) {
@@ -109,26 +113,25 @@ const ToDoList = () => {
                 <div className="todo-items-container">
                     {todo.map(item => (
                         <div key={item.id} className={`todo-item ${item.status ? "done" : ""}`}>
-
-                                <label className="check-done">
+                            <label className="check-done">
+                                <input
+                                    type="checkbox"
+                                    id={`todoCheckbox-${item.id}`}
+                                    checked={item.status}
+                                    onChange={() => toggleTodoStatus(item.id)}
+                                />
+                                <span className={`bubble ${item.category}`}></span>
+                            </label>
+                            {edit === item.id ? (
+                                <div className="todo-item-title">
                                     <input
-                                        type="checkbox"
-                                        id={`todoCheckbox-${item.id}`}
-                                        checked={item.status}
-                                        onChange={() => toggleTodoStatus(item.id)}
+                                        value={editValue}
+                                        onChange={e => setEditValue(e.target.value)}
                                     />
-                                    <span className={`bubble ${item.category}`}></span>
-                                </label>
-                                {edit === item.id ? (
-                                    <div className="todo-item-title">
-                                        <input
-                                            value={value}
-                                            onChange={e => setValue(e.target.value)}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="todo-item-title">{item.title}</div>
-                                )}
+                                </div>
+                            ) : (
+                                <div className="todo-item-title">{item.title}</div>
+                            )}
 
                             {edit === item.id ? (
                                 <div className="actions">

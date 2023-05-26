@@ -10,8 +10,8 @@ function Header() {
         }
     }, []);
 
-    const handleNameChange = (event) => {
-        const newName = event.target.value;
+    const handleNameChange = (e) => {
+        const newName = e.target.value;
         setName(newName);
         localStorage.setItem("name", newName);
     };
