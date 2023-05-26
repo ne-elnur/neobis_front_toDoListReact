@@ -1,11 +1,16 @@
 import './App.css';
-import ToDoList from "./components/ToDoList";
-import React from "react";
+import React, {useState} from "react";
+import ToDoList from "./components/ToDoList/ToDoList";
+import Header from "./components/Header/Header";
 
 function App() {
+
+    const [todo, setTodo] = useState([])
+
   return (
     <div className="App">
-      <ToDoList />
+      <Header />
+      <ToDoList todo={todo} setTodo={setTodo}/>
     </div>
   );
 }
