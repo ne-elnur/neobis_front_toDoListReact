@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
-const ToDoList = ({ todo, setTodo }) => {
+const ToDoList = () => {
     const [value, setValue] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [edit, setEdit] = useState(null);
     const [editValue, setEditValue] = useState('');
+
+    const [todo, setTodo] = useState(() => {
+        const savedTodo = JSON.parse(localStorage.getItem('todo'));
+        return savedTodo || [];
+    });
+
+    useEffect(() => {
+        localStorage.setItem('todo', JSON.stringify(todo));
+    }, [todo]);
 
     function saveTodo(e) {
         e.preventDefault();
