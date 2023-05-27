@@ -24,6 +24,11 @@ const ToDoList = () => {
             return;
         }
 
+        if (!value.trim()) {
+            alert('Please enter a todo');
+            return;
+        }
+
         const newTodo = [
             ...todo,
             {
@@ -77,7 +82,7 @@ const ToDoList = () => {
         <div>
             <section className="create-todo">
                 <form onSubmit={saveTodo}>
-                    <h4>What's on your ToDoList?</h4>
+                    <h3>What's on your ToDoList?</h3>
                     <input
                         type="text"
                         placeholder="e.g. Bring milk"
@@ -85,7 +90,7 @@ const ToDoList = () => {
                         onChange={e => setValue(e.target.value)}
                     />
 
-                    <h4>Pick a category</h4>
+                    <h3>Pick a category</h3>
                     <div className="options">
                         <label htmlFor="category1">
                             <input
